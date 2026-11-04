@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Checkout</h1>
+<table>
+  {% for l in lines %}
+  <tr><td>{{ l.name }}</td><td>× {{ l.qty }}</td><td>{{ l.line }}</td></tr>
+  {% endfor %}
+  <tr><td><strong>Total</strong></td><td></td><td><strong id="order-total">{{ total }}</strong></td></tr>
+</table>
+<p><button id="pay-btn" type="button" {% if empty %}disabled{% endif %}>Pay now</button></p>
+<script>
+  document.getElementById("pay-btn").addEventListener("click", async () => {
+    const res = await fetch("/api/order", { method: "POST" });
+    const body = await res.json();
+    window.location.href = "/confirmation/" + body.order_id;
+  });
+</script>
+{% endblock %}

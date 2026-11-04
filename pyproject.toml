@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "proofheal"
+version = "0.1.0"
+description = "Self-healing e2e tests that only accept repairs they can prove."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "playwright==1.64.1",
+  "openai==3.45.0",
+  "flask==3.1.3",
+  "jsonschema==4.26.0",
+  "pytest==9.2.0",
+]
+
+[project.scripts]
+proofheal = "proofheal.cli:main"
+
+[tool.setuptools]
+packages = ["proofheal", "demo_app"]
+
+[tool.setuptools.package-data]
+demo_app = ["templates/*/*.html"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests_unit"]

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Your bag</h1>
+<div class="summary">
+  {% for l in lines %}
+  <div class="row"><span>{{ l.name }} ({{ l.qty }})</span><span>{{ l.line }}</span></div>
+  {% endfor %}
+  <div class="row"><strong>Order total</strong><strong id="grand-total" data-testid="grand-total">{{ total }}</strong></div>
+  <button class="cta" id="complete-purchase" type="button" {% if empty %}disabled{% endif %}>Complete purchase</button>
+</div>
+<script>
+  document.getElementById("complete-purchase").addEventListener("click", async () => {
+    {% if broken %}
+    // Regression: the payment flag is never set, so this handler silently returns.
+    if (!window.__paymentsReady) { return; }
+    {% endif %}
+    const res = await fetch("/api/order", { method: "POST" });
+    const body = await res.json();
+    window.location.href = "/confirmation/" + body.order_id;
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 id="catalog-title">Tiny Shop Catalog</h1>
+{% for p in products %}
+<div class="product">
+  <h2>{{ p.name }}</h2>
+  <p class="price">{{ p.price }}</p>
+  <form method="post" action="/cart/add">
+    <input type="hidden" name="sku" value="{{ p.sku }}">
+    <button id="add-{{ p.sku }}" class="btn-add" type="submit">Add to cart</button>
+  </form>
+</div>
+{% endfor %}
+{% endblock %}

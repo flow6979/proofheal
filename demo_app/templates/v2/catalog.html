@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="page-heading" data-testid="shop-heading">Tiny Shop Catalog</h1>
+<div class="grid">
+{% for p in products %}
+  <article class="card">
+    <h3>{{ p.name }}</h3>
+    <div class="cost">{{ p.price }}</div>
+    <form method="post" action="/cart/add">
+      <input type="hidden" name="sku" value="{{ p.sku }}">
+      <button class="cta" data-testid="bag-add-{{ p.sku }}" type="submit">Add to bag</button>
+    </form>
+  </article>
+{% endfor %}
+</div>
+{% endblock %}

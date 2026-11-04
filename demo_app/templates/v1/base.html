@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Tiny Shop</title>
+  <style>
+    body { font-family: Georgia, serif; margin: 0; background: #fffdf7; color: #222; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; background: #2d4a3e; color: #fff; }
+    header a { color: #fff; }
+    main { padding: 24px 32px; }
+    .product { border: 1px solid #ccc; padding: 12px; margin: 8px 0; width: 320px; }
+    .btn-add, #pay-btn { background: #2d4a3e; color: #fff; border: 0; padding: 8px 14px; cursor: pointer; }
+    table { border-collapse: collapse; } td { padding: 4px 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>Tiny Shop</strong>
+    <span>Cart: <span id="cart-count">{{ cart_count }}</span> · <a id="go-checkout" href="/checkout">Checkout</a></span>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+</body>
+</html>

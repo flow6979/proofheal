@@ -1,0 +1,18 @@
+# secrets — never commit
+.env
+.env.*
+*.key
+
+# local state
+.proofheal/
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+
+# generated proof reports (one real example run is committed)
+proof_reports/*
+!proof_reports/example/
+!proof_reports/README.md

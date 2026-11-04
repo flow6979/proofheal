@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="summary">
+  <h2 id="thanks-heading">Thank you for your order!</h2>
+  <div class="row"><span>Order #{{ order_id }}</span><span>Paid <b data-testid="paid-amount">{{ order.total }}</b></span></div>
+</div>
+{% endblock %}
