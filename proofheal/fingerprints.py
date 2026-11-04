@@ -41,7 +41,10 @@ _CAPTURE_JS = r"""
   }
   const r = el.getBoundingClientRect();
   const text = norm(el.innerText);
-  const parent = el.parentElement;
+  // Context: the nearest ancestor (up to 4 levels) whose text says more than the element's own,
+  // e.g. the product card around an "Add to cart" button.
+  let parent = el.parentElement;
+  for (let i = 0; parent && i < 4 && norm(parent.innerText).length <= text.length + 10; i++) parent = parent.parentElement;
   return {
     tag: el.tagName.toLowerCase(),
     id: el.id || null,

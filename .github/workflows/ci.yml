@@ -1,0 +1,44 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      run_e2e:
+        description: "Run the e2e demo (needs the MODEL_API_KEY repository secret)"
+        type: boolean
+        default: false
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e .
+      - run: pytest tests_unit -q
+
+  e2e:
+    if: github.event_name == 'workflow_dispatch' && inputs.run_e2e
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e . && playwright install --with-deps chromium
+      - name: e2e suite on v1 (plain pytest)
+        run: SHOP_VARIANT=v1 pytest tests_e2e -q
+      - name: record → heal v2 → refuse v2-broken
+        env:
+          MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+          NO_OPEN: "1"
+        run: ./demo.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: proof-reports
+          path: proof_reports/
