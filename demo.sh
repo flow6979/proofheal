@@ -7,6 +7,9 @@ command -v "$PH" >/dev/null || PH=".venv/bin/proofheal"
 
 bold() { printf "\n\033[1m%s\033[0m\n" "$*"; }
 
+# Optional local .env (gitignored) holding MODEL_API_KEY; never echoed.
+if [ -f .env ]; then set -a; . ./.env; set +a; fi
+
 if [ -z "${MODEL_API_KEY:-}${PROOFHEAL_API_KEY:-}" ]; then
   echo "MODEL_API_KEY is not set. export MODEL_API_KEY=<your Meta Model API key> and re-run." >&2
   exit 2
